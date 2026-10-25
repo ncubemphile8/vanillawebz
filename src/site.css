@@ -73,3 +73,32 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}
 .extras-note b{font-size:13px}.extras-note span{font-size:12px;color:#aeb2c7;flex:1;min-width:180px}.extras-note a{display:flex;align-items:center;gap:8px;color:#dcd7ff;text-decoration:none;font-size:12px}
 @media(max-width:700px){.extras-grid{grid-template-columns:1fr}.extra-wide{grid-column:auto;display:block}.extra-wide .portal-preview{margin-bottom:24px;min-height:210px}.extra-card{padding:22px}.extra-visual{height:150px}.portal-metrics{gap:5px}.portal-metrics strong{font-size:9px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* Cinematic section-to-section transition curtain and living 3D hero */
+.page-transition{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:radial-gradient(ellipse at 50% 48%,#20194a 0%,#0b0c18 54%,#06070d 100%);clip-path:inset(0 0 0 0);will-change:opacity}
+.page-transition:not(.active){visibility:hidden}
+.page-transition.active{visibility:visible}
+.page-transition>span{font-size:11px;letter-spacing:.34em;font-weight:700;color:#f5f2ff}
+.page-transition>span span{color:#a99aff}
+.transition-orb{width:84px;height:84px;border-radius:50%;position:relative;background:radial-gradient(circle at 29% 23%,#fff 0%,#b9a8ff 8%,#7864f4 25%,#31205d 57%,#090913 78%);box-shadow:inset -12px -12px 22px #05050d,0 0 42px #8565ff7a,0 0 100px #6d48ff35;animation:transitionFloat .72s cubic-bezier(.2,.8,.2,1) both}
+.transition-orb:before,.transition-orb:after{content:"";position:absolute;inset:-19px -37px;border:1px solid #b7a5ff9c;border-radius:50%;transform:rotate(-28deg)}
+.transition-orb:after{inset:-28px -13px;transform:rotate(57deg);border-color:#678bff8c}
+@keyframes transitionFloat{0%{transform:scale(.45) rotate(-35deg);filter:blur(8px)}55%{transform:scale(1.1) rotate(15deg);filter:blur(0)}100%{transform:scale(1) rotate(0)}}
+.hero-art .orbit{animation:orbitDrift 12s linear infinite}
+.hero-art .o2{animation-direction:reverse;animation-duration:17s}
+.hero-art .ribbon{animation:ribbonFloat 7s ease-in-out infinite;filter:drop-shadow(0 14px 24px #6c55ff30)}
+.hero-art .r2{animation-delay:-2.1s}.hero-art .r3{animation-delay:-4s}
+@keyframes orbitDrift{to{transform:rotate(360deg)}}
+@keyframes ribbonFloat{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -13px;rotate:3deg}}
+.extra-visual .globe-core{animation:globeLevitate 6s ease-in-out infinite;transform-style:preserve-3d}
+.extra-visual .globe-ring{animation:globeOrbit 10s linear infinite}
+.extra-visual .ring-b{animation-direction:reverse;animation-duration:13s}
+.studio-orb{animation:globeLevitate 7s ease-in-out infinite}
+@keyframes globeLevitate{0%,100%{transform:translateY(0) rotate(-20deg)}50%{transform:translateY(-11px) rotate(-8deg)}}
+@keyframes globeOrbit{to{transform:rotate(335deg)}}
+.project-visual .visual-shape{transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .8s}
+.project a:hover .visual-shape{transform:scale(1.12) rotate(5deg);filter:drop-shadow(0 18px 25px #0005)}
+.service:hover .service-top svg,.extra-card:hover .extra-icon svg{transform:translateY(-3px) rotate(-6deg)}
+.service-top svg,.extra-icon svg{transition:transform .35s}
+@media(prefers-reduced-motion:reduce){.transition-orb,.hero-art .orbit,.hero-art .ribbon,.extra-visual .globe-core,.extra-visual .globe-ring,.studio-orb{animation:none!important}}
