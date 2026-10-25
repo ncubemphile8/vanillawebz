@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type MouseEvent } from "react";
 import { motion } from "motion/react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Layers3, Menu, MonitorSmartphone, Sparkles, Workflow, X, Zap } from "lucide-react";
 import "./site.css";
@@ -50,7 +50,7 @@ function Brand(){return <a className="brand" href="#home"><span className="mark"
 export default function App(){
  const [menu,setMenu]=useState(false),[filter,setFilter]=useState("All work"),[sent,setSent]=useState(false),[pageTransition,setPageTransition]=useState(false);
  const [form,setForm]=useState({name:"",email:"",business:"",service:"",message:""});
- function navigateWithTransition(e:React.MouseEvent<HTMLElement>){
+ function navigateWithTransition(e:MouseEvent<HTMLElement>){
   const target=e.target as HTMLElement; const link=target.closest("a[href^=\"#\"]") as HTMLAnchorElement|null;
   if(!link)return; const id=link.getAttribute("href")?.slice(1); if(!id)return; const section=document.getElementById(id); if(!section)return;
   e.preventDefault(); setMenu(false); setPageTransition(true);
