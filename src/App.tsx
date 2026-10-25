@@ -1,6 +1,6 @@
 import { useState, type FormEvent, type MouseEvent } from "react";
 import { motion } from "motion/react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Layers3, Menu, MonitorSmartphone, Sparkles, Workflow, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Bot, Check, Layers3, Menu, MessageCircle, MonitorSmartphone, Send, Sparkles, Workflow, X, Zap } from "lucide-react";
 import "./site.css";
 
 const projects = [
@@ -49,7 +49,7 @@ const services = [
 function Brand(){return <a className="brand" href="#home"><span className="mark"><i/><i/><i/><b/></span><span>vanilla<span className="brand-accent">webz</span></span></a>}
 export default function App(){
  const [menu,setMenu]=useState(false),[filter,setFilter]=useState("All work"),[sent,setSent]=useState(false),[pageTransition,setPageTransition]=useState(false);
- const [form,setForm]=useState({name:"",email:"",business:"",service:"",message:""});
+ const [form,setForm]=useState({name:"",email:"",business:"",service:"",message:""});\n const [chatOpen,setChatOpen]=useState(false),[chatInput,setChatInput]=useState("");\n const [chatMessages,setChatMessages]=useState([{role:"assistant",text:"Hi! I’m the VanillaWebz assistant. I can help you explore websites, business systems, marketing and AI automation. What are you looking to build?"}]);
  function navigateWithTransition(e:MouseEvent<HTMLElement>){
   const target=e.target as HTMLElement; const link=target.closest("a[href^=\"#\"]") as HTMLAnchorElement|null;
   if(!link)return; const id=link.getAttribute("href")?.slice(1); if(!id)return; const section=document.getElementById(id); if(!section)return;
@@ -58,6 +58,33 @@ export default function App(){
   window.setTimeout(()=>setPageTransition(false),760);
  }
  const filtered=filter==="All work"?projects:projects.filter(p=>p.category===filter);
+ function replyToChat(raw:string){
+  const q=raw.toLowerCase(); let answer="";
+  if(/price|cost|how much|budget|pricing|package/.test(q)){
+   answer="Our starting prices are: websites $200–$800 one-off; business systems $750–$5,000; social media and marketing $100–$500/month; AI & automation projects from $100. Final pricing depends on scope. Want a tailored quote?";
+  }else if(/website|web design|landing page|online presence/.test(q)){
+   answer="We build responsive websites from $200 for a one-page Starter site, $400 for a Business site, $600 for Growth and $800 for Premium. We can add motion, galleries, forms, WhatsApp and analytics. How many pages or features do you need?";
+  }else if(/system|software|dashboard|inventory|booking|operations|app/.test(q)){
+   answer="We build custom business systems for workflows like jobs, stock, staff, bookings, reporting and customer management. Packages start at $750. Tell me what your team currently manages manually and I’ll help narrow down a useful starting point.";
+  }else if(/market|social|instagram|content|reel|advert|ads|marketing/.test(q)){
+   answer="Our marketing plans start at $100/month and cover branded posts, short-form video, social media management, campaigns and lead-generation support. Ad spend and influencer fees are separate. Which platforms are you focused on?";
+  }else if(/ai|automation|chatbot|bot/.test(q)){
+   answer="We can scope AI assistants, customer-question handling, lead capture, follow-ups and repetitive-work automation. Projects start from $100, depending on integrations and usage. What would you like the assistant to do?";
+  }else if(/contact|email|whatsapp|call|quote|talk|human/.test(q)){
+   answer="Absolutely — you can reach the team at hello@vanillawebz.co.za or WhatsApp +263 772 924 731. I can also take you to the project enquiry form.";
+  }else if(/hello|hi|hey|good morning|good afternoon/.test(q)){
+   answer="Hey there! 👋 Are you exploring a website, a business system, marketing or AI automation?";
+  }else{
+   answer="Thanks for sharing that. I can help with websites ($200+), custom business systems ($750+), marketing ($100/month+) and AI automation ($100+). For a tailored recommendation, tell me what your business does and what you want to improve — or use the project enquiry form to reach our team.";
+  }
+  return answer;
+ }
+ function sendChat(textValue=chatInput){
+  const text=textValue.trim(); if(!text)return;
+  setChatMessages(prev=>[...prev,{role:"user",text}]); setChatInput("");
+  window.setTimeout(()=>setChatMessages(prev=>[...prev,{role:"assistant",text:replyToChat(text)}]),280);
+ }
+
  function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const subject=encodeURIComponent("VanillaWebz project enquiry — "+(form.service||"New project"));const body=encodeURIComponent("Name: "+form.name+"\nEmail: "+form.email+"\nBusiness: "+form.business+"\nService: "+form.service+"\n\nProject details:\n"+form.message+"\n\nSent via vanillawebz.co.za");window.location.href="mailto:hello@vanillawebz.co.za?subject="+subject+"&body="+body;setSent(true)}
  return <main id="home" onClick={navigateWithTransition}><motion.div className={"page-transition "+(pageTransition?"active":"")} initial={false} animate={{opacity:pageTransition?1:0}} transition={{duration:.22}} aria-hidden="true"><div className="transition-orb"/><span>VANILLA<span>WEBZ</span></span></motion.div>
  <header className="header"><Brand/><nav className={menu?"nav open":"nav"}><a onClick={()=>setMenu(false)} href="#work">Work</a><a onClick={()=>setMenu(false)} href="#services">Services</a><a onClick={()=>setMenu(false)} href="#packages">Pricing</a><a onClick={()=>setMenu(false)} href="#extras">Add-ons</a><a onClick={()=>setMenu(false)} href="#marketing">Marketing</a><a onClick={()=>setMenu(false)} href="#studio">Studio</a><a onClick={()=>setMenu(false)} href="#contact">Contact</a></nav><a className="header-cta" href="#contact">Start a project <ArrowUpRight size={15}/></a><button className="menu-btn" onClick={()=>setMenu(!menu)} aria-label="Toggle menu">{menu?<X/>:<Menu/>}</button></header>
