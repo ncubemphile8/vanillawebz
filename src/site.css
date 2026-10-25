@@ -102,3 +102,14 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}
 .service:hover .service-top svg,.extra-card:hover .extra-icon svg{transform:translateY(-3px) rotate(-6deg)}
 .service-top svg,.extra-icon svg{transition:transform .35s}
 @media(prefers-reduced-motion:reduce){.transition-orb,.hero-art .orbit,.hero-art .ribbon,.extra-visual .globe-core,.extra-visual .globe-ring,.studio-orb{animation:none!important}}
+
+/* Make the hero footage unmistakably visible, including on mobile */
+.hero{isolation:isolate;overflow:hidden;background:#080a15}
+.hero-video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;opacity:.62!important;z-index:-3!important;filter:saturate(1.12) contrast(1.08)!important;display:block!important;pointer-events:none}
+.hero-video-overlay{position:absolute!important;inset:0!important;z-index:-2!important;background:linear-gradient(90deg,rgba(7,9,20,.92) 0%,rgba(7,9,20,.68) 44%,rgba(7,9,20,.18) 100%),linear-gradient(0deg,rgba(7,9,20,.72) 0%,transparent 48%,rgba(7,9,20,.18) 100%)!important;pointer-events:none}
+.hero-grid{z-index:-1!important;pointer-events:none}
+.hero-copy{z-index:2!important}
+.hero-art{z-index:1!important;pointer-events:none;perspective:1000px}
+.hero-art .ribbon{transform-style:preserve-3d;animation:ribbonFloat 7s ease-in-out infinite, ribbonTurn 11s ease-in-out infinite alternate}
+@keyframes ribbonTurn{0%{filter:hue-rotate(0deg) drop-shadow(0 18px 35px #5a54ff44)}100%{filter:hue-rotate(22deg) drop-shadow(0 24px 50px #a44dff55)}}
+@media(max-width:680px){.hero-video{opacity:.43!important}.hero-video-overlay{background:linear-gradient(180deg,rgba(7,9,20,.64),rgba(7,9,20,.36) 45%,rgba(7,9,20,.82))!important}.hero-art{z-index:1!important;opacity:.72!important}}
