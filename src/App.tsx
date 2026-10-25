@@ -49,12 +49,14 @@ const services = [
 function Brand(){return <a className="brand" href="#home"><span className="mark"><i/><i/><i/><b/></span><span>vanilla<span className="brand-accent">webz</span></span></a>}
 export default function App(){
  const [menu,setMenu]=useState(false),[filter,setFilter]=useState("All work"),[sent,setSent]=useState(false),[pageTransition,setPageTransition]=useState(false);
- const [form,setForm]=useState({name:"",email:"",business:"",service:"",message:""});\n const [chatOpen,setChatOpen]=useState(false),[chatInput,setChatInput]=useState("");
+ const [form,setForm]=useState({name:"",email:"",business:"",service:"",message:""});
+ const [chatOpen,setChatOpen]=useState(false),[chatInput,setChatInput]=useState("");
  const [quoteType,setQuoteType]=useState("Website");
  const [quotePages,setQuotePages]=useState("5");
  const [quoteStyle,setQuoteStyle]=useState("Premium");
  const [quoteFeatures,setQuoteFeatures]=useState<string[]>(["WhatsApp integration","Contact / lead form"]);
- const [quoteTimeline,setQuoteTimeline]=useState("Standard timeline");\n const [chatMessages,setChatMessages]=useState([{role:"assistant",text:"Hi! I’m the VanillaWebz assistant. I can help you explore websites, business systems, marketing and AI automation. What are you looking to build?"}]);
+ const [quoteTimeline,setQuoteTimeline]=useState("Standard timeline");
+ const [chatMessages,setChatMessages]=useState([{role:"assistant",text:"Hi! I’m the VanillaWebz assistant. I can help you explore websites, business systems, marketing and AI automation. What are you looking to build?"}]);
  function navigateWithTransition(e:MouseEvent<HTMLElement>){
   const target=e.target as HTMLElement; const link=target.closest("a[href^=\"#\"]") as HTMLAnchorElement|null;
   if(!link)return; const id=link.getAttribute("href")?.slice(1); if(!id)return; const section=document.getElementById(id); if(!section)return;
