@@ -20,7 +20,7 @@ function buildGalaxyLivery(renderer,mirror=false){
  c.beginPath();c.moveTo(1315,-25);c.bezierCurveTo(1250,80,1210,170,1135,260);c.lineTo(1180,260);c.bezierCurveTo(1265,170,1345,70,1383,-25);c.closePath();c.fillStyle="#80d324";c.fill();
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
  const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,side:THREE.DoubleSide,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-3});
- const plane=new THREE.Mesh(new THREE.PlaneGeometry(8.8,.72),material);plane.rotation.y=mirror?-Math.PI/2:Math.PI/2;plane.position.set(mirror?-1.5:1.5,-.38,0);plane.renderOrder=9;return plane;
+ const plane=new THREE.Mesh(new THREE.PlaneGeometry(8.1,.52),material);plane.rotation.y=mirror?-Math.PI/2:Math.PI/2;plane.position.set(mirror?-1.5:1.5,-.96,0);plane.renderOrder=9;return plane;
 }
 function CoachModel(){
  const host=useRef(null),engine=useRef(null);const [ready,setReady]=useState(false),[error,setError]=useState(""),[view,setView]=useState("three"),[spin,setSpin]=useState(false);
