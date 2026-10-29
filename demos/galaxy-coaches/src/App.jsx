@@ -10,7 +10,7 @@ const poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3JlBxAyut4hiS7XHQife3mH
 const modelUrl="https://d2ol7oe51mr4n9.cloudfront.net/user_3JlBxAyut4hiS7XHQife3mH61Ba/29bd82b5-0af6-4756-b15e-5cbee510b25b.glb";
 const cityList=["Harare","Bulawayo","Gweru","Kwekwe","Kadoma","Chegutu"];
 const routes=[["Harare","Bulawayo"],["Bulawayo","Harare"],["Harare","Gweru"],["Gweru","Bulawayo"],["Harare","Kwekwe"],["Chegutu","Kadoma"],["Kadoma","Kwekwe"],["Bulawayo","Gweru"]];
-const viewList=[{id:"three",name:"Front three-quarter",p:[14.6,5.2,11.5]},{id:"side",name:"Full side profile",p:[18,4.5,0]},{id:"rear",name:"Rear three-quarter",p:[14.6,5.2,-11.5]},{id:"detail",name:"Closer detail",p:[9.8,4.6,8.5]}];
+const viewList=[{id:"three",name:"Front three-quarter",p:[12,4.7,9]},{id:"side",name:"Full side profile",p:[16,4.3,0]},{id:"rear",name:"Rear three-quarter",p:[12,4.7,-9]},{id:"detail",name:"Closer detail",p:[9,3.6,6.5]}];
 function CoachModel(){
  const host=useRef(null),engine=useRef(null);const [ready,setReady]=useState(false),[error,setError]=useState(""),[view,setView]=useState("three"),[spin,setSpin]=useState(false);
  useEffect(()=>{const el=host.current;if(!el)return;let stop=false,raf=0,observer,goal=null;
@@ -27,11 +27,11 @@ function CoachModel(){
  const resize=()=>{const w=Math.max(1,el.clientWidth),h=Math.max(1,el.clientHeight);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)};resize();observer=new ResizeObserver(resize);observer.observe(el);
  new GLTFLoader().load(modelUrl,g=>{if(stop)return;const root=g.scene;
  root.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{if(!m)return;if(m.name==="BODI"){m.color.set("#ffd000");m.roughness=.36;m.metalness=.08}if(m.name==="KACA"){m.color.set("#101720");m.opacity=.78;m.transparent=true;m.roughness=.18;m.needsUpdate=true}if(m.map){m.map.colorSpace=THREE.SRGBColorSpace;m.map.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());m.map.needsUpdate=true}})});
- const box=new THREE.Box3().setFromObject(root),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());root.position.sub(center);floor.position.y=-size.y/2-.14;grid.position.y=-size.y/2-.125;scene.add(root);camera.position.set(14.6,Math.max(4.8,size.y*1.25),11.5);controls.target.set(0,0,0);controls.update();setReady(true)
+ const box=new THREE.Box3().setFromObject(root),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());root.position.sub(center);floor.position.y=-size.y/2-.14;grid.position.y=-size.y/2-.125;scene.add(root);scene.add(buildGalaxyLivery(renderer,false));scene.add(buildGalaxyLivery(renderer,true));camera.position.set(12,Math.max(4.4,size.y*1.16),9);controls.target.set(0,0,0);controls.update();setReady(true)
  },undefined,()=>{if(!stop)setError("The 3D coach could not load. You can still explore the official Galaxy Coaches site.")});
  const animate=()=>{raf=requestAnimationFrame(animate);if(goal){camera.position.lerp(goal.position,.075);controls.target.lerp(goal.target,.075);if(camera.position.distanceTo(goal.position)<.035)goal=null}controls.update();renderer.render(scene,camera)};animate();
  engine.current.setView=v=>{goal={position:new THREE.Vector3(...v.p),target:new THREE.Vector3(0,0,0)};controls.autoRotate=false};
- return()=>{stop=true;cancelAnimationFrame(raf);observer?.disconnect();controls.dispose();scene.traverse(o=>{o.geometry?.dispose();if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m?.dispose())});renderer.dispose();renderer.domElement.remove();engine.current=null}
+ return()=>{stop=true;cancelAnimationFrame(raf);observer?.disconnect();controls.dispose();scene.traverse(o=>{o.geometry?.dispose();if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{if(m?.map)m.map.dispose();m?.dispose()})});renderer.dispose();renderer.domElement.remove();engine.current=null}
  },[]);
  const choose=v=>{setView(v.id);setSpin(false);engine.current?.setView?.(v)};
  const toggle=()=>{const v=!spin;setSpin(v);if(engine.current?.controls)engine.current.controls.autoRotate=v};
