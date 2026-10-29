@@ -11,6 +11,17 @@ const modelUrl="https://d2ol7oe51mr4n9.cloudfront.net/user_3JlBxAyut4hiS7XHQife3
 const cityList=["Harare","Bulawayo","Gweru","Kwekwe","Kadoma","Chegutu"];
 const routes=[["Harare","Bulawayo"],["Bulawayo","Harare"],["Harare","Gweru"],["Gweru","Bulawayo"],["Harare","Kwekwe"],["Chegutu","Kadoma"],["Kadoma","Kwekwe"],["Bulawayo","Gweru"]];
 const viewList=[{id:"three",name:"Front three-quarter",p:[12,4.7,9]},{id:"side",name:"Full side profile",p:[16,4.3,0]},{id:"rear",name:"Rear three-quarter",p:[12,4.7,-9]},{id:"detail",name:"Closer detail",p:[9,3.6,6.5]}];
+function buildGalaxyLivery(renderer,mirror=false){
+ const canvas=document.createElement("canvas");canvas.width=1800;canvas.height=230;
+ const c=canvas.getContext("2d");c.clearRect(0,0,1800,230);
+ if(mirror){c.translate(1800,0);c.scale(-1,1)}
+ c.textBaseline="middle";c.font="italic 800 100px Arial";c.lineWidth=3;c.strokeStyle="rgba(16,22,28,.48)";c.strokeText("Galaxy Coaches",205,115);c.fillStyle="#fffef6";c.fillText("Galaxy Coaches",205,115);
+ c.lineJoin="round";c.beginPath();c.moveTo(1250,-25);c.bezierCurveTo(1190,80,1140,170,1050,260);c.lineTo(1115,260);c.bezierCurveTo(1205,170,1280,70,1320,-25);c.closePath();c.fillStyle="#f7f7f0";c.fill();
+ c.beginPath();c.moveTo(1315,-25);c.bezierCurveTo(1250,80,1210,170,1135,260);c.lineTo(1180,260);c.bezierCurveTo(1265,170,1345,70,1383,-25);c.closePath();c.fillStyle="#80d324";c.fill();
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
+ const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,side:THREE.DoubleSide,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-3});
+ const plane=new THREE.Mesh(new THREE.PlaneGeometry(8.8,.72),material);plane.rotation.y=mirror?-Math.PI/2:Math.PI/2;plane.position.set(mirror?-1.5:1.5,-.38,0);plane.renderOrder=9;return plane;
+}
 function CoachModel(){
  const host=useRef(null),engine=useRef(null);const [ready,setReady]=useState(false),[error,setError]=useState(""),[view,setView]=useState("three"),[spin,setSpin]=useState(false);
  useEffect(()=>{const el=host.current;if(!el)return;let stop=false,raf=0,observer,goal=null;
